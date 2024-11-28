@@ -1,0 +1,22 @@
+#  ler i, n, j e você calcular A[i] = A[j] + N. endereço base do vetor A está no reg $s0.
+    li $v0, 5 
+    syscall
+    move $s1, $v0 # s1 = i
+
+    li $v0, 5
+    syscall
+    move $s2, $v0 #s2 = n
+
+    li $v0, 5
+    syscall # v0 = j
+
+    # calcula deslocamento de a[j]
+    sll $t0, $v0, 2
+    add $t0, $t0, $s0
+    lw $t1, 0($t0)
+
+    add $t1, $t1, $s2
+
+    sll $t0, $s1, 2
+    add $t0, $t0, $s0
+    sw $t1, 0($t0)
