@@ -1,0 +1,13 @@
+contaBits:
+    move $t3, $a0
+    li $t0, 1
+    li $t1, 0
+
+laco:
+    and $t2, $t3, $t0
+    add $t1, $t1, $t2
+    srl $t3, $t3, 1
+    bne $t3, $zero, laco
+
+    move $v0, $t1
+    jr $ra
