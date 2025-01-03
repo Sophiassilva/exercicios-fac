@@ -1,0 +1,12 @@
+        .data
+
+msg:    .asciiz "Ola mundo"
+        .text
+# imrpime ola mundo
+# 100 pts
+main:   li $v0, 4 # imprime string
+        la $a0, msg # passa a msg pro argumento
+        syscall
+
+        li $v0, 10
+        syscall
