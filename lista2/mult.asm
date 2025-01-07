@@ -1,41 +1,40 @@
-.data
+# .data
 
-.text
+# .text
 
-main: 
-        li $a0, -3
-        li $a1, 4
-        jal multfac
+# main: 
+#         li $a0, 170000000
+#         li $a1, 1000
+#         jal multfac
 
-imprime: 
-        li $v0, 1
-        move $a0, $s0
-        syscall 
+# imprime: 
+#         li $v0, 1
+#         move $a0, $s0
+#         syscall 
 
-        li $v0, 1
-        move $a0, $s1
-        syscall 
+#         li $v0, 1
+#         move $a0, $s1
+#         syscall 
 
-        li $v0, 1
-        move $a0, $s4
-        syscall 
+#         li $v0, 1
+#         move $a0, $s4
+#         syscall 
 
-        li $v0, 1
-        move $a0, $s5
-        syscall 
+#         li $v0, 1
+#         move $a0, $s5
+#         syscall 
 
-        li $v0, 10 # encerra programa
-        syscall
+#         li $v0, 10 
+#         syscall
 
 multfac:
-        move $s0, $a0 # M
-        move $s1, $a1 # Q
-        move $s2, $zero # contador
-        li $s3, 31 # iteracoes
-        
-        # $s4 = P[7-4] & $s5 = P[3-0] & temNegativo = 0
-        move $s4, $zero # HI ->
-        move $s5, $s1 # LO -> P[3-0] = Q
+        move $s0, $a0 
+        move $s1, $a1 
+        move $s2, $zero 
+        li $s3, 32 
+
+        move $s4, $zero 
+        move $s5, $s1 
         move $s6, $zero
 
         bgez $s0, verificaMult
@@ -51,31 +50,48 @@ verificaMult:
 
 multiplica:
         beq $s2, $s3, verificar
-        addi $s2, 1
-        # ATÉ AQUI TUDO CERTO
+        addi $s2, $s2, 1
+        # li $v0, 1
+        # move $a0, $s2
+        # syscall 
 
-        andi $t0, $s5, 1 # verifica P[0]
+        andi $t0, $s5, 1 
         beq $t0, $zero, deslocar
-        add $s5, $s5, $s0 # SE NÃO, P[7-4] += M
-        j deslocar
+        add $s4, $s4, $s0 
 
 deslocar: 
-# deslocar LO 
         srl $s5, $s5, 1
-# acha bit menos significativo de HI e coloca em LO
+
         andi $t1, $s4, 1
         sll $t1, $t1, 31
-        add $s5, $s5, $t1
-# deslocar HI
+        or $s5, $s5, $t1
+
         srl $s4, $s4, 1
+        # li $v0, 1
+        # move $a0, $s4
+        # syscall 
+        # li $v0, 1
+        # move $a0, $s5
+        # syscall 
+
         j multiplica
 
 verificar:
-        beq $zero, $s6, retornar
+
+        beq $s6, $zero, retornar
         nor $s4, $s4, $zero
+        addi $s5, $s5, 1
         nor $s5, $s5, $zero
+        addi $s4, $s4, 1
 
 retornar:   
+        # li $v0, 1
+        # move $a0, $s4
+        # syscall 
+        # li $v0, 1
+        # move $a0, $s5
+        # syscall 
+        
         mthi $s4
         mtlo $s5
         jr $ra 
