@@ -3,8 +3,8 @@
 .text
 
 main: 
-        li $a0, -2
-        li $a1, -4
+        li $a0, -3
+        li $a1, 4
         jal multfac
 
 imprime: 
@@ -31,13 +31,12 @@ multfac:
         move $s0, $a0 # M
         move $s1, $a1 # Q
         move $s2, $zero # contador
-        li $s3, 32 # iteracoes
+        li $s3, 31 # iteracoes
         
         # $s4 = P[7-4] & $s5 = P[3-0] & temNegativo = 0
         move $s4, $zero # HI ->
         move $s5, $s1 # LO -> P[3-0] = Q
         move $s6, $zero
-
 
         bgez $s0, verificaMult
         nor $s0, $s0, $zero
@@ -64,9 +63,9 @@ deslocar:
 # deslocar LO 
         srl $s5, $s5, 1
 # acha bit menos significativo de HI e coloca em LO
-        andi $t0, $s4, 1
-        sll $t0, $t0, 31
-        add $s4, $s4, $t0
+        andi $t1, $s4, 1
+        sll $t1, $t1, 31
+        add $s5, $s5, $t1
 # deslocar HI
         srl $s4, $s4, 1
         j multiplica
